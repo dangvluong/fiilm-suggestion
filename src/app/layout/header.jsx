@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../features/authSlice';
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -36,7 +35,7 @@ export default function Header() {
               Login
             </Button>
           )}
-          {isAuthenticated && (
+          {!!isAuthenticated && (
             <>
               <Typography variant="body1" sx={{ marginRight: 2 }}>
                 Welcome, <b>{user.username}</b>

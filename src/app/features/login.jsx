@@ -2,18 +2,30 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from './authSlice';
+import {
+  Box,
+  Grid,
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 
 const dummyUsers = ['alice', 'bob', 'charlie', 'david'];
 
 export default function Login() {
-  const [selectedUser, setSelectedUser] = useState(dummyUsers[0]);
+  const [selectedUserId, setSelectedUserId] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(login({ username: selectedUser }));
+    dispatch(
+      login({ id: selectedUserId, username: dummyUsers[selectedUserId] })
+    );
 
     navigate('/');
   };
@@ -28,30 +40,32 @@ export default function Login() {
         borderRadius: 8,
       }}
     >
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label
-          htmlFor="username"
-          style={{ display: 'block', marginBottom: '0.5rem' }}
-        >
-          Username:
-        </label>
-        <select
-          id="username"
-          value={selectedUser}
-          onChange={(e) => setSelectedUser(e.target.value)}
-          style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
-        >
-          {dummyUsers.map((user) => (
-            <option key={user} value={user}>
-              {user}
-            </option>
-          ))}
-        </select>
-        <button type="submit" style={{ width: '100%', padding: '0.5rem' }}>
-          Login
-        </button>
-      </form>
+      <Typography variant="h3">Login</Typography>
+      <Box display="flex" mt={5} justifyContent="center">
+        <FormControl sx={{ width: '100%' }} size="medium" m={5}>
+          <InputLabel id="demo-select-small-label">User</InputLabel>
+          <Select
+            labelId="demo-select-small-label"
+            id={selectedUserId}
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(e.target.value)}
+          >
+            {dummyUsers.map((user, i) => (
+              <MenuItem key={i} value={i}>
+                {user}
+              </MenuItem>
+            ))}
+          </Select>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            Login
+          </Button>
+        </FormControl>
+      </Box>
     </div>
   );
 }

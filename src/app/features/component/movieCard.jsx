@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router';
 
 export default function MovieCard({ id, name, description, imageUrl }) {
   return (
@@ -26,7 +27,7 @@ export default function MovieCard({ id, name, description, imageUrl }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" href={`/films/${id}`}>
+        <Button size="small" component={Link} to={`/films/${id}`}>
           Learn More
         </Button>
       </CardActions>
