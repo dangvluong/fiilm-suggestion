@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 const movies = [
   {
     id: 1,
@@ -20,6 +23,16 @@ const movies = [
 
 export default function HomePage() {
   const [selectedMonth, setSelectedMonth] = useState(1);
+  const navigate = useNavigate();
+
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  console.log('isAuthenticated' + isAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated]);
 
   return (
     <div>

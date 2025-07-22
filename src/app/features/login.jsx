@@ -1,14 +1,20 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { login } from './authSlice';
 
 const dummyUsers = ['alice', 'bob', 'charlie', 'david'];
 
 export default function Login() {
   const [selectedUser, setSelectedUser] = useState(dummyUsers[0]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    dispatch(login({ username: selectedUser }));
+
     navigate('/');
   };
 
