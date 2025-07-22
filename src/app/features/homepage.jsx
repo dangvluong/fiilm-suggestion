@@ -52,7 +52,7 @@ export default function HomePage() {
           mb={4}
         >
           <Typography variant="h4" gutterBottom mr={'auto'}>
-            Here is the top recommended films for you in {months[month]}
+            Here are the top recommended films for you in {months[month]}
           </Typography>
           <Box display="flex">
             <FormControl sx={{ minWidth: 120 }} size="medium" m={5}>

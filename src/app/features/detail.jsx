@@ -36,6 +36,7 @@ export default function Details() {
           }}
         />
       </Box>
+
       <Typography variant="body1" gutterBottom>
         {movie.description}
       </Typography>
@@ -51,6 +52,17 @@ export default function Details() {
       <Box sx={{ mt: 1 }} display="flex" alignItems="center">
         <Rating value={movie.rating} precision={0.1} readOnly />
         <span style={{ marginLeft: 8 }}>{movie.rating}</span>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+        <iframe
+          width={600}
+          height={400}
+          src={movie.trailerUrl}
+          title={`${movie.name} Trailer`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{ borderRadius: 8, width: '100%', maxWidth: 600 }}
+        ></iframe>
       </Box>
     </Box>
   );
