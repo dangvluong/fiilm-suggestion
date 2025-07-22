@@ -1,6 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../features/authSlice';
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 export default function Header() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -13,38 +19,35 @@ export default function Header() {
   };
 
   return (
-    <nav
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem',
-        borderBottom: '1px solid #ccc',
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          textDecoration: 'none',
-          fontWeight: 'bold',
-          fontSize: '1.2rem',
-        }}
-      >
-        Home
-        {isAuthenticated && (
-          <>
-            {!!user && <h3>Hello {user.username}</h3>}
-            <button onClick={handleLogout} style={{ padding: '0.5rem 1rem' }}>
-              Logout
-            </button>
-          </>
-        )}
-      </Link>
-      {!isAuthenticated && (
-        <Link to="/login">
-          <button style={{ padding: '0.5rem 1rem' }}>Login</button>
-        </Link>
-      )}
-    </nav>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            sx={{ flexGrow: 1 }}
+            component={Link}
+            to="/"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            Film Suggestion
+          </Typography>
+          {!isAuthenticated && (
+            <Button color="inherit" href="/login">
+              Login
+            </Button>
+          )}
+          {isAuthenticated && (
+            <>
+              <Typography variant="body1" sx={{ marginRight: 2 }}>
+                Welcome, <b>{user.username}</b>
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
