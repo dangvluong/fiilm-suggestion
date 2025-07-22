@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MovieCard from './component/movieCard';
-import { movies } from '../../../movies';
+import { fetchMovies } from '../api/apiService';
 
 const months = [
   'January',
@@ -27,19 +27,28 @@ const months = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const [month, setMonth] = React.useState(1);
-
-  const handleChange = (event) => {
-    setMonth(event.target.value);
-  };
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
   }, [isAuthenticated, navigate]);
+
+  const [month, setMonth] = React.useState(1);
+  const [movies, setMovies] = React.useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const movies = await fetchMovies();
+      setMovies(movies);
+    };
+    fetchData();
+  }, [month, user]);
+
+  const handleChange = (event) => {
+    setMonth(event.target.value);
+  };
 
   return (
     <div>

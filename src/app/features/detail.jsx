@@ -1,8 +1,8 @@
 import { Typography, Box, Chip, Rating } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { movies } from '../../../movies';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchMovieById } from '../api/apiService';
 
 export default function Details() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -14,7 +14,14 @@ export default function Details() {
   }, [isAuthenticated, navigate]);
 
   const { id } = useParams();
-  const movie = movies.find((m) => m.id === Number(id));
+  const [movie, setMovie] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const movie = await fetchMovieById(id);
+      setMovie(movie);
+    };
+    fetchData();
+  }, [id]);
 
   if (!movie) {
     return <Typography variant="h5">Movie not found</Typography>;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from './authSlice';
@@ -12,10 +12,19 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-
-const dummyUsers = ['alice', 'bob', 'charlie', 'david'];
+import { fetchUsers } from '../api/apiService';
 
 export default function Login() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await fetchUsers();
+      setUsers(users);
+    };
+    fetchData();
+  }, []);
+
   const [selectedUserId, setSelectedUserId] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,9 +32,7 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(
-      login({ id: selectedUserId, username: dummyUsers[selectedUserId] })
-    );
+    dispatch(login({ id: selectedUserId, username: users[selectedUserId] }));
 
     navigate('/');
   };
@@ -50,7 +57,7 @@ export default function Login() {
             value={selectedUserId}
             onChange={(e) => setSelectedUserId(e.target.value)}
           >
-            {dummyUsers.map((user, i) => (
+            {users.map((user, i) => (
               <MenuItem key={i} value={i}>
                 {user}
               </MenuItem>

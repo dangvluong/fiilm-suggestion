@@ -1,6 +1,10 @@
+import { movies } from '../../../movies';
+
 const baseUrl = 'http://localhost:3000';
 
 export async function fetchMovies() {
+  return movies;
+
   const response = await fetch(`${baseUrl}/api/movie`);
   if (!response.ok) {
     throw new Error('Failed to fetch movies');
@@ -9,6 +13,8 @@ export async function fetchMovies() {
 }
 
 export async function fetchMovieById(id) {
+  return movies.find((movie) => movie.id == id);
+
   const response = await fetch(`${baseUrl}/api/movie/${id}`);
   if (!response.ok) {
     throw new Error('Failed to fetch movie');
@@ -17,6 +23,8 @@ export async function fetchMovieById(id) {
 }
 
 export async function fetchUsers() {
+  return ['alice', 'bob', 'charlie', 'david'];
+
   const response = await fetch(`${baseUrl}/users`);
   if (!response.ok) {
     throw new Error('Failed to fetch users');
